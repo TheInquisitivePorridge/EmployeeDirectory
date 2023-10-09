@@ -1,0 +1,70 @@
+﻿@model EmployeeDirectory.Data.Models.Employee
+
+@{
+    ViewData["Title"] = "Create";
+    
+}
+
+<h1>Добавить сотрудника</h1>
+
+<h4>Сотрудник</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label"></label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Midlname" class="control-label"></label>
+                <input asp-for="Midlname" class="form-control" />
+                <span asp-validation-for="Midlname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Section" class="control-label"></label>
+                @Html.DropDownList("Sections", null, htmlAttributes: new { @class = "form-control"})
+                <span asp-validation-for="Section" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhotoForm" class="control-label"/>
+                <div class="custom-file">
+                    <input asp-for="PhotoForm" class="custom-file-input" id="FLPhotoForm" 
+                    onchange="document.getElementById('PhotoFormPrv').src = window.URL.createObjectURL(this.files[0])" />
+                    <label class="custom-file-label" for="FLPhotoForm">Выберите файл</label>
+                </div>
+                <img id="PhotoFormPrv" src="" alt="(((" class="photo-prv" width="150" height="150" />
+                <span asp-validation-for="PhotoForm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).sublings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}

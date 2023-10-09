@@ -1,0 +1,83 @@
+﻿@model IEnumerable<EmployeeDirectory.Data.Models.Employee>
+
+@{
+    ViewData["Title"] = "Список сотрудников";
+
+    Pager pager = new Pager();
+    int pagerNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pagerNo = pager.CurrentPage;
+    }
+}
+
+<h1>Список сотрудников</h1>
+
+<p>
+    <a asp-action="Create">Добавить сотрудника</a>
+</p>
+<form asp-controller="Home" asp-action="Index">
+        <p>
+            <input type="text" name="SearchString" id="search" formmethod="get" placeholder="Поиск..." autocomplete="off" onkeyup="onsubmit" />
+            <input type="submit" value="Искать" />
+        </p> 
+    </form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Midlname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Section)
+            </th>
+         </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/sourse/images/@item.UrlPhoto" class="photo-prv-mini" style="width:75px;height:75px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Midlname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Section.Descript)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-info">Редактирование</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary ml-1">Детали</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger ml-1">Удаление</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_pager" model="@pager"/>
